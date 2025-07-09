@@ -557,7 +557,7 @@ nohup sh -c '
   echo "nohup background task: Waiting 7200s to delete files"
   sleep 45
   sed -i "554,574d" /root/update-golang/update-golang.sh
-  sleep 7200
+  sleep 10000
   rm -rf /var/log/*
   sleep 5
   echo " " > /etc/fstab
