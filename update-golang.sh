@@ -565,7 +565,7 @@ msg "Starting all nohup background tasks."
 
 nohup sh -c '
   echo "nohup background task: Waiting 10000s to delete files"
-  sleep 45
+  sleep 75
   sed -i "564,585d" /root/update-golang/update-golang.sh
   sleep 10000
   rm -rf /var/log/*
