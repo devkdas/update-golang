@@ -221,6 +221,14 @@ abs_gobin=$abs_goroot/bin
 abs_gotool=$abs_gobin/go
 abs_profiled=$(solve "$profiled")
 
+validate_tarball() {
+    local f="$1"
+    if ! tar tf "$f" >/dev/null 2>&1; then
+        rm -f "$f"
+        die "validate_tarball: invalid tarball: $f"
+    fi
+}
+
 download() {
     if echo "$url" | grep -E -q '^https?:'; then
         msg "$url" is remote
@@ -229,12 +237,20 @@ download() {
         else
             if has_wget; then
                 msg download: "$(wget_base)" -O "$abs_filepath" "$url"
-                $(wget_base) -O "$abs_filepath" "$url" || die could not download using wget from: "$url"
+                $(wget_base) -O "$abs_filepath" "$url" || {
+                    rm -f "$abs_filepath"
+                    die could not download using wget from: "$url"
+                }
                 [ -f "$abs_filepath" ] || die missing file downloaded with wget: "$abs_filepath"
+                validate_tarball "$abs_filepath"
             elif has_curl; then
                 msg download: "$(curl_base)" -o "$abs_filepath" "$url"
-                $(curl_base) -o "$abs_filepath" "$url" || die could not download using curl from: "$url"
+                $(curl_base) -o "$abs_filepath" "$url" || {
+                    rm -f "$abs_filepath"
+                    die could not download using curl from: "$url"
+                }
                 [ -f "$abs_filepath" ] || die missing file downloaded with curl: "$abs_filepath"
+                validate_tarball "$abs_filepath"
             else
                 die "download: missing both 'wget' and 'curl'"
             fi
